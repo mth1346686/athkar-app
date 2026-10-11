@@ -25,13 +25,15 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
           channel: 'stable'
           cache: true
 
       - name: Generate Android Scaffolding
         run: |
           flutter create . --platforms=android --org=com.athkar.app --project-name athkar_app
+          if [ -f android/settings.gradle ]; then
+            sed -i -E 's/id "org.jetbrains.kotlin.android" version "[^"]*"/id "org.jetbrains.kotlin.android" version "2.0.20"/' android/settings.gradle || true
+          fi
           flutter pub get
 
       - name: Build Release APK
@@ -47,8 +49,8 @@ jobs:
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.0
-          name: "Athkar App v1.0.0 (Release APK)"
+          tag_name: v1.0.1
+          name: "Athkar App v1.0.1 (Release APK)"
           body: "Official release APK for Athkar App with daily auto-renewal."
           files: build/app/outputs/flutter-apk/app-release.apk
         env:
