@@ -31,7 +31,7 @@ jobs:
 
       - name: Generate Android Scaffolding
         run: |
-          flutter create . --platforms=android --org=com.athkar.app
+          flutter create . --platforms=android --org=com.athkar.app --project-name athkar_app
           flutter pub get
 
       - name: Build Release APK
